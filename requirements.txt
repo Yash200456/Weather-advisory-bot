@@ -1,0 +1,6 @@
+langgraph
+langchain-core
+requests
+pyyaml
+python-dotenv
+google-generativeai

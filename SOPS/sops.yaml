@@ -1,10 +1,117 @@
 - id: sop_001
-  category: outdoor_exercises
+  category: outdoor_exercise
   activity: cycling
   condition_description: "wind speed exceeds 50 km/h"
   condition_check:
-  field: wind_speed_10m
-  operator: greater_than
-  value: 50
+    field: wind_speed_10m
+    operator: greater_than
+    value: 50
   severity: high
-  advice_template: "wind speeds are currently {wind_speed} km/h,above the 50km/h threshold considered safe for cycling.Strong gusts can affect your balance and control-consider postponing your ride or choosing a more sheltered route."
+  advice_template: "Wind speeds are currently {wind_speed_10m} km/h, above the 50 km/h threshold considered safe for cycling. Strong gusts can affect your balance and control - consider postponing your ride or choosing a more sheltered route."
+
+- id: sop_002
+  category: travel
+  activity: commute
+  condition_description: "precipitation probability exceeds 70%"
+  condition_check:
+    field: precipitation_probability
+    operator: greater_than
+    value: 70
+  severity: high
+  advice_template: "There's a {precipitation_probability}% chance of rain, above the 70% threshold where travel delays become likely. Consider checking for traffic or transit alerts before you head out, and allow extra travel time."
+
+- id: sop_003
+  category: vulnerable_groups
+  activity: elderly_outdoor_activity
+  condition_description: "precipitation probability exceeds 50%"
+  condition_check:
+    field: precipitation_probability
+    operator: greater_than
+    value: 50
+  severity: medium
+  advice_template: "There's a {precipitation_probability}% chance of rain, above the 50% threshold where wet surfaces increase slip and fall risk for elderly individuals. Consider postponing outdoor plans or ensuring appropriate footwear and assistance if going out."
+
+- id: sop_004
+  category: vulnerable_groups
+  activity: children_outdoor_activity
+  condition_description: "UV index exceeds 8"
+  condition_check:
+    field: uv_index
+    operator: greater_than
+    value: 8
+  severity: high
+  advice_template: "The UV index is currently {uv_index}, above the 8 threshold where sunburn risk becomes significant for children. Apply sunscreen, ensure protective clothing or shade, and limit direct sun exposure during peak hours."
+
+- id: sop_005
+  category: vulnerable_groups
+  activity: pet_outdoor_activity
+  condition_description: "temperature exceeds 35°C"
+  condition_check:
+    field: temperature_2m
+    operator: greater_than
+    value: 35
+  severity: medium
+  advice_template: "The temperature is currently {temperature_2m}°C, above the 35°C threshold where heatstroke risk becomes significant for pets, and hot pavement can burn paws. Walk pets during cooler hours (early morning or evening) and avoid direct pavement contact."
+
+- id: sop_006
+  category: outdoor_exercise
+  activity: general_outdoor_plans
+  condition_description: "precipitation probability exceeds 25% but stays below 50%"
+  condition_check:
+    combined: true
+    conditions:
+      - field: precipitation_probability
+        operator: greater_than
+        value: 25
+      - field: precipitation_probability
+        operator: less_than
+        value: 50
+  severity: low
+  advice_template: "There's a {precipitation_probability}% chance of light rain today - nothing serious, but bring an umbrella or a light rain jacket just in case."
+
+- id: sop_007
+  category: leisure
+  activity: picnic
+  condition_description: "No clean numeric threshold - a qualitative judgment call based on overall comfort: mild temperature (not too hot or cold), dry conditions (low chance of rain), and calm-to-moderate wind (not too windy). This SOP requires holistic reasoning rather than a single field comparison."
+  condition_check: null
+  severity: low
+  advice_template: "Conditions today look generally pleasant for a picnic - temperature around {temperature_2m}°C, {precipitation_probability}% chance of rain, and wind around {wind_speed_10m} km/h. It looks like a good day to head out, but keep an eye on the forecast closer to your planned time."
+  fallback_advice: "Today's conditions (temperature, rain chance, or wind) don't look ideal for a picnic. Consider an indoor alternative or picking a different day."
+
+- id: sop_008
+  category: compound_severe_weather
+  activity: any
+  condition_description: "precipitation probability exceeds 70% AND wind speed exceeds 40 km/h simultaneously - indicates an active severe weather system, not just isolated rain or wind"
+  condition_check:
+    combined: true
+    conditions:
+      - field: precipitation_probability
+        operator: greater_than
+        value: 70
+      - field: wind_speed_10m
+        operator: greater_than
+        value: 40
+  severity: severe
+  advice_template: "Current conditions show {precipitation_probability}% chance of rain combined with wind speeds of {wind_speed_10m} km/h - this combination indicates an active severe weather system. Regardless of your planned activity, we strongly advise postponing outdoor plans until conditions improve."
+
+- id: sop_009
+  category: vulnerable_groups
+  activity: children_outdoor_activity
+  condition_description: "wind speed exceeds 45 km/h"
+  condition_check:
+    field: wind_speed_10m
+    operator: greater_than
+    value: 45
+  severity: medium
+  advice_template: "Wind speeds are currently {wind_speed_10m} km/h, above the 45 km/h threshold where flying debris and instability become a concern for young children outdoors. Consider indoor activities until conditions calm down."
+
+- id: sop_010
+  category: travel
+  activity: commute
+  condition_description: "temperature drops below 5°C"
+  condition_check:
+    field: temperature_2m
+    operator: less_than
+    value: 5
+  severity: low
+  advice_template: "The temperature is currently {temperature_2m}°C, below 5°C - roads may be icy in some areas. Drive carefully, allow extra time, and dress warmly if walking or waiting for transit."
