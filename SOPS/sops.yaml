@@ -1,0 +1,10 @@
+- id: sop_001
+  category: outdoor_exercises
+  activity: cycling
+  condition_description: "wind speed exceeds 50 km/h"
+  condition_check:
+  field: wind_speed_10m
+  operator: greater_than
+  value: 50
+  severity: high
+  advice_template: "wind speeds are currently {wind_speed} km/h,above the 50km/h threshold considered safe for cycling.Strong gusts can affect your balance and control-consider postponing your ride or choosing a more sheltered route."
