@@ -40,7 +40,8 @@ def classify_intent_node(state):
     )
     try:
         tag = call_llm(prompt).strip()
-    except Exception:
+    except Exception as e:
+        print(f"[DEBUG classify] {e}")
         tag = "unknown"
     return {**state, "activity": tag if tag in ACTIVITY_TAGS else "unknown"}
 
